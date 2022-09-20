@@ -6,6 +6,7 @@ import com.example.training.model.StudentRequest;
 import com.example.training.model.Student;
 import com.example.training.repository.StudentRepository;
 import com.example.training.validation.CheckDataValidation;
+import com.example.training.validation.Regex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,9 @@ public class StudentService {
 
     @Autowired
     private CheckDataValidation checkData;
+
+    @Autowired
+    private Regex regex;
 
     public List<StudentEntity> getStudents() {
         List<StudentEntity> students = studentRepository.findAll();
@@ -42,6 +46,7 @@ public class StudentService {
     public StudentEntity createStudent(StudentRequest request) {
 
         checkData.CheckDataValidation(request);
+        regex.checkFormat(request);
         StudentEntity data = new StudentEntity();
         data.setName(request.getName());
         data.setGender(request.getGender());
@@ -50,6 +55,9 @@ public class StudentService {
     }
 
     public StudentEntity updateStudentById(int id,StudentRequest request) {
+
+        checkData.CheckDataValidation(request);
+        regex.checkFormat(request);
         StudentEntity student = studentRepository.findById(id)
                 .orElseThrow(() -> new StudentNotFoundException(id));
 

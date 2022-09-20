@@ -10,15 +10,16 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity(name = "student")
-public class StudentEntity extends BaseEntity {
+public class
+StudentEntity extends BaseEntity {
 
     @Column(nullable = false,length = 50)
     private String name;
 
-    @Column(nullable = false)
-    private char gender;
+    @Column(nullable = false,length = 1)
+    private String gender;
 
-    @Column(nullable = false,length = 5)
+    @Column(nullable = false,length = 2)
     private String grade;
 
 }

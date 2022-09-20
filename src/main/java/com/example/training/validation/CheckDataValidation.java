@@ -15,7 +15,7 @@ public class CheckDataValidation {
         if (request.getGrade() == null || request.getName().isEmpty()) {
             throw new DataNullException("grade");
         }
-        if (request.getGender() == 0) {
+        if (request.getGender() == null || request.getGender().isEmpty()) {
             throw new DataNullException("gender");
         }
     }

@@ -9,7 +9,7 @@ public class Student {
 
     private String name;
 
-    private char gender;
+    private String gender;
 
     private String grade;
 
