@@ -1,7 +1,9 @@
 package com.example.training.repository;
 
-import com.example.training.entity.StudentEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.training.model.StudentDTO;
+import com.example.training.model.StudentRequest;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface StudentRepository extends JpaRepository<StudentEntity,Integer> {
+public interface StudentRepository extends MongoRepository<StudentDTO,Integer> {
+    void insert(StudentRequest request);
 }
