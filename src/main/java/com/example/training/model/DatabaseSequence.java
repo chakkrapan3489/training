@@ -3,19 +3,15 @@ package com.example.training.model;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
 
+@Document(collection = "database_sequences")
+@Component
 @Data
-@Document(collection = "student")
-public class StudentDTO {
+public class DatabaseSequence {
 
     @Id
-    private int id;
-
-    private String name;
-
-    private String gender;
-
-    private String grade;
-
+    private String id;
+    private int seq;
 
 }

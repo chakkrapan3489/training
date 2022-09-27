@@ -1,0 +1,6 @@
+spring :
+    data:
+      mongodb:
+          database: training
+          uri: mongodb://localhost:27017
+

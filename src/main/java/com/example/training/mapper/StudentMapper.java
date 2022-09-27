@@ -1,15 +1,19 @@
 package com.example.training.mapper;
 
-import com.example.training.model.StudentDTO;
+import com.example.training.model.Student;
 import com.example.training.model.StudentRequest;
 import com.example.training.model.StudentResponse;
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 import java.util.Optional;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface StudentMapper {
-    StudentDTO toStudentDTO(StudentRequest request);
 
-    StudentResponse toStudentResponse(Optional<StudentDTO> student);
+    StudentMapper INSTANCE = Mappers.getMapper(StudentMapper.class);
+
+    Student toStudent(StudentRequest request);
+
+    StudentResponse toStudentResponse(Student student);
 }

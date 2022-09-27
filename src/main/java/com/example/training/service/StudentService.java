@@ -2,7 +2,7 @@ package com.example.training.service;
 
 import com.example.training.exception.StudentNotFoundException;
 import com.example.training.mapper.StudentMapper;
-import com.example.training.model.StudentDTO;
+import com.example.training.model.Student;
 import com.example.training.model.StudentRequest;
 import com.example.training.model.StudentResponse;
 import com.example.training.repository.StudentRepository;
@@ -27,37 +27,38 @@ public class StudentService {
     @Autowired
     private Regex regex;
 
-    @Autowired
-    private StudentMapper studentMapper;
 
-    public List<StudentDTO> getStudents() {
-        List<StudentDTO> students = studentRepository.findAll();
+    public List<Student> getStudents() {
+        List<Student> students = studentRepository.findAll();
         return students;
     }
 
     public StudentResponse getStudentById(int id) {
-        Optional<StudentDTO> student = studentRepository.findById(id);
+        Optional<Student> student = studentRepository.findById(id);
         if (student.isEmpty()) {
             throw new StudentNotFoundException(id);
         }
-        return studentMapper.toStudentResponse(student);
+
+        return StudentMapper.INSTANCE.toStudentResponse(student.get());
     }
 
-    public StudentDTO createStudent(StudentRequest request) {
+    public Student createStudent(StudentRequest request) {
 
         checkData.CheckDataValidation(request);
         regex.checkFormat(request);
-        StudentDTO data = studentMapper.toStudentDTO(request);
+        Student data = StudentMapper.INSTANCE.toStudent(request);
+        data.setId(SequenceGeneratorService.generateSequence(data.SEQUENCE_NAME));
         return studentRepository.save(data);
     }
 
-    public StudentResponse updateStudentById(int id,StudentRequest request) {
-        Optional<StudentDTO> student = studentRepository.findById(id);
-        if (student.isEmpty()){
+    public StudentResponse updateStudentById(int id, StudentRequest request) {
+        Optional<Student> student = studentRepository.findById(id);
+        if (student.isEmpty()) {
             throw new StudentNotFoundException(id);
         }
+         StudentMapper.INSTANCE.toStudent(request);
 
-        return studentMapper.toStudentResponse(student);
+        return StudentMapper.INSTANCE.toStudentResponse(student.get());
     }
 
     public String deleteStudentById(int id) {

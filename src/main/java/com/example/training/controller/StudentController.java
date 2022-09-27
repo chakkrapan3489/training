@@ -1,6 +1,6 @@
 package com.example.training.controller;
 
-import com.example.training.model.StudentDTO;
+import com.example.training.model.Student;
 import com.example.training.model.StudentRequest;
 import com.example.training.model.StudentResponse;
 import com.example.training.service.StudentService;
@@ -20,7 +20,7 @@ public class StudentController {
     private StudentService  studentService;
 
     @GetMapping
-    public ResponseEntity<List<StudentDTO>> getAllStudents() {
+    public ResponseEntity<List<Student>> getAllStudents() {
         return ResponseEntity.ok(studentService.getStudents());
     }
 
@@ -30,7 +30,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<StudentDTO> saveStudents(@RequestBody StudentRequest request) {
+    public ResponseEntity<Student> saveStudents(@RequestBody StudentRequest request) {
         return ResponseEntity.ok(studentService.createStudent(request));
     }
 
