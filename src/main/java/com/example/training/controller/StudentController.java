@@ -5,6 +5,7 @@ import com.example.training.model.StudentRequest;
 import com.example.training.model.StudentResponse;
 import com.example.training.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,10 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudents());
     }
 
+    @GetMapping
+    public ResponseEntity<List<Student>> getAllStudentsByParam(@RequestParam("gender") String gender){
+        return ResponseEntity.ok(studentService.getStudentsByParam)
+    }
     @GetMapping("/{id}")
     public ResponseEntity<StudentResponse> getStudentById(@PathVariable int id) {
         return ResponseEntity.ok(studentService.getStudentById(id));
@@ -35,7 +40,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StudentResponse> updateStudentById(@PathVariable int id,@RequestBody StudentRequest request) {
+    public ResponseEntity<Student> updateStudentById(@PathVariable int id,@RequestBody StudentRequest request) {
         return ResponseEntity.ok(studentService.updateStudentById(id,request));
     }
 

@@ -9,6 +9,9 @@ import com.example.training.repository.StudentRepository;
 import com.example.training.validation.CheckDataValidation;
 import com.example.training.validation.Regex;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +30,9 @@ public class StudentService {
     @Autowired
     private Regex regex;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
 
     public List<Student> getStudents() {
         List<Student> students = studentRepository.findAll();
@@ -38,12 +44,12 @@ public class StudentService {
         if (student.isEmpty()) {
             throw new StudentNotFoundException(id);
         }
-
         return StudentMapper.INSTANCE.toStudentResponse(student.get());
     }
 
-    public Student createStudent(StudentRequest request) {
+    public List<Student> getStudentsByParam;
 
+    public Student createStudent(StudentRequest request) {
         checkData.CheckDataValidation(request);
         regex.checkFormat(request);
         Student data = StudentMapper.INSTANCE.toStudent(request);
@@ -51,18 +57,21 @@ public class StudentService {
         return studentRepository.save(data);
     }
 
-    public StudentResponse updateStudentById(int id, StudentRequest request) {
+    public Student updateStudentById(int id, StudentRequest request) {
+        Student student = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), Student.class);
+        if (student == null) {
+            throw new StudentNotFoundException(id);
+        }
+        request.setId(id);
+        return mongoTemplate.save(StudentMapper.INSTANCE.toStudent(request));
+    }
+
+    public String deleteStudentById(int id) {
         Optional<Student> student = studentRepository.findById(id);
         if (student.isEmpty()) {
             throw new StudentNotFoundException(id);
         }
-         StudentMapper.INSTANCE.toStudent(request);
-
-        return StudentMapper.INSTANCE.toStudentResponse(student.get());
-    }
-
-    public String deleteStudentById(int id) {
-
+        studentRepository.deleteById(id);
         return "Student Id : " + id + " have been Delete";
     }
 }

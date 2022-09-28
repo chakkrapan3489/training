@@ -16,4 +16,5 @@ public interface StudentMapper {
     Student toStudent(StudentRequest request);
 
     StudentResponse toStudentResponse(Student student);
+
 }
