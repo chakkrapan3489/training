@@ -1,5 +1,6 @@
 package com.example.training.service;
 
+import com.example.training.business.StudentBusiness;
 import com.example.training.exception.StudentNotFoundException;
 import com.example.training.mapper.StudentMapper;
 import com.example.training.model.Student;
@@ -10,8 +11,6 @@ import com.example.training.validation.CheckDataValidation;
 import com.example.training.validation.Regex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,11 +30,11 @@ public class StudentService {
     private Regex regex;
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private StudentBusiness studentBusiness;
 
 
-    public List<Student> getStudents() {
-        List<Student> students = studentRepository.findAll();
+    public List<Student> getStudents(String name, String grade, String gender) {
+        List<Student> students = studentBusiness.getStudentsByParam(name, grade, gender);
         return students;
     }
 
@@ -47,8 +46,6 @@ public class StudentService {
         return StudentMapper.INSTANCE.toStudentResponse(student.get());
     }
 
-    public List<Student> getStudentsByParam;
-
     public Student createStudent(StudentRequest request) {
         checkData.CheckDataValidation(request);
         regex.checkFormat(request);
@@ -58,12 +55,12 @@ public class StudentService {
     }
 
     public Student updateStudentById(int id, StudentRequest request) {
-        Student student = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), Student.class);
-        if (student == null) {
+        Optional<Student> student = studentRepository.findById(id);
+        if (student.isEmpty()) {
             throw new StudentNotFoundException(id);
         }
         request.setId(id);
-        return mongoTemplate.save(StudentMapper.INSTANCE.toStudent(request));
+        return studentRepository.save(StudentMapper.INSTANCE.toStudent(request));
     }
 
     public String deleteStudentById(int id) {

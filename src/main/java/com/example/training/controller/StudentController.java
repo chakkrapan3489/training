@@ -5,7 +5,6 @@ import com.example.training.model.StudentRequest;
 import com.example.training.model.StudentResponse;
 import com.example.training.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,14 +20,10 @@ public class StudentController {
     private StudentService  studentService;
 
     @GetMapping
-    public ResponseEntity<List<Student>> getAllStudents() {
-        return ResponseEntity.ok(studentService.getStudents());
+    public ResponseEntity<List<Student>> getAllStudents(@RequestParam(required = false) String name,@RequestParam(required = false) String grade,@RequestParam(required = false) String gender) {
+        return ResponseEntity.ok(studentService.getStudents(name,grade,gender));
     }
 
-    @GetMapping
-    public ResponseEntity<List<Student>> getAllStudentsByParam(@RequestParam("gender") String gender){
-        return ResponseEntity.ok(studentService.getStudentsByParam)
-    }
     @GetMapping("/{id}")
     public ResponseEntity<StudentResponse> getStudentById(@PathVariable int id) {
         return ResponseEntity.ok(studentService.getStudentById(id));
