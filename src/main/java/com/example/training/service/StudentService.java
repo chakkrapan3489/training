@@ -4,13 +4,12 @@ import com.example.training.business.StudentBusiness;
 import com.example.training.exception.StudentNotFoundException;
 import com.example.training.mapper.StudentMapper;
 import com.example.training.model.Student;
-import com.example.training.model.StudentRequest;
-import com.example.training.model.StudentResponse;
+import com.example.training.model.StudentRequestDTO;
+import com.example.training.model.StudentResponseDTO;
 import com.example.training.repository.StudentRepository;
 import com.example.training.validation.CheckDataValidation;
 import com.example.training.validation.Regex;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +37,7 @@ public class StudentService {
         return students;
     }
 
-    public StudentResponse getStudentById(int id) {
+    public StudentResponseDTO getStudentById(int id) {
         Optional<Student> student = studentRepository.findById(id);
         if (student.isEmpty()) {
             throw new StudentNotFoundException(id);
@@ -46,7 +45,7 @@ public class StudentService {
         return StudentMapper.INSTANCE.toStudentResponse(student.get());
     }
 
-    public Student createStudent(StudentRequest request) {
+    public Student createStudent(StudentRequestDTO request) {
         checkData.CheckDataValidation(request);
         regex.checkFormat(request);
         Student data = StudentMapper.INSTANCE.toStudent(request);
@@ -54,7 +53,7 @@ public class StudentService {
         return studentRepository.save(data);
     }
 
-    public Student updateStudentById(int id, StudentRequest request) {
+    public Student updateStudentById(int id, StudentRequestDTO request) {
         Optional<Student> student = studentRepository.findById(id);
         if (student.isEmpty()) {
             throw new StudentNotFoundException(id);

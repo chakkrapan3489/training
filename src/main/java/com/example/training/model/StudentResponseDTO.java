@@ -3,7 +3,7 @@ package com.example.training.model;
 import lombok.Data;
 
 @Data
-public class StudentResponse {
+public class StudentResponseDTO {
 
     private int id;
 

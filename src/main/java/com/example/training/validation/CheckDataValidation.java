@@ -1,14 +1,13 @@
 package com.example.training.validation;
 
 import com.example.training.exception.DataNullException;
-import com.example.training.model.StudentRequest;
-import org.springframework.context.annotation.Bean;
+import com.example.training.model.StudentRequestDTO;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CheckDataValidation {
 
-    public void CheckDataValidation(StudentRequest request) {
+    public void CheckDataValidation(StudentRequestDTO request) {
         if (request.getName() == null || request.getName().isEmpty()) {
             throw new DataNullException("name");
         }

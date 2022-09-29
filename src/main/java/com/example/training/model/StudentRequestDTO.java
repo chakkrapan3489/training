@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 @Data
-public class StudentRequest {
+public class StudentRequestDTO {
 
     private int id;
 

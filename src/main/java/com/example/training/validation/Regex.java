@@ -3,7 +3,7 @@ package com.example.training.validation;
 import com.example.training.exception.GenderFormatException;
 import com.example.training.exception.GradeFormatException;
 import com.example.training.exception.NameFormatException;
-import com.example.training.model.StudentRequest;
+import com.example.training.model.StudentRequestDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.regex.Matcher;
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 @Component
 public class Regex {
 
-    public void checkFormat(StudentRequest request) {
+    public void checkFormat(StudentRequestDTO request) {
 
         Pattern namePattern = Pattern.compile("[^A-Za-z]");
         Matcher nameMatcher = namePattern.matcher(request.getName());
