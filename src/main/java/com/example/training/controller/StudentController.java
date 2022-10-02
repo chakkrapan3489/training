@@ -1,5 +1,6 @@
 package com.example.training.controller;
 
+import com.example.training.exception.BaseException;
 import com.example.training.model.Student;
 import com.example.training.model.StudentRequestDTO;
 import com.example.training.model.StudentResponseDTO;
@@ -21,27 +22,27 @@ public class StudentController {
     private StudentService  studentService;
 
     @GetMapping
-    public ResponseEntity<List<Student>> getAllStudents(@RequestParam Map<String,String> request) {
+    public ResponseEntity<List<Student>> getAllStudents(@RequestParam Map<String,String> request) throws BaseException {
         return  ResponseEntity.ok(studentService.getStudents(request));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentResponseDTO> getStudentById(@PathVariable int id) {
+    public ResponseEntity<StudentResponseDTO> getStudentById(@PathVariable int id) throws BaseException {
         return ResponseEntity.ok(studentService.getStudentById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Student> saveStudents(@RequestBody StudentRequestDTO request) {
+    public ResponseEntity<Student> saveStudents(@RequestBody StudentRequestDTO request) throws BaseException {
         return ResponseEntity.ok(studentService.createStudent(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudentById(@PathVariable int id,@RequestBody StudentRequestDTO request) {
+    public ResponseEntity<Student> updateStudentById(@PathVariable int id,@RequestBody StudentRequestDTO request) throws BaseException{
         return ResponseEntity.ok(studentService.updateStudentById(id,request));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteStudentById(@PathVariable int id) {
+    public ResponseEntity<String> deleteStudentById(@PathVariable int id) throws BaseException {
         return ResponseEntity.ok(studentService.deleteStudentById(id));
     }
 
