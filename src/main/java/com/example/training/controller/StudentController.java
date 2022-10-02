@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -20,8 +21,8 @@ public class StudentController {
     private StudentService  studentService;
 
     @GetMapping
-    public ResponseEntity<List<Student>> getAllStudents(@RequestParam(required = false) String name,@RequestParam(required = false) String grade,@RequestParam(required = false) String gender) {
-        return ResponseEntity.ok(studentService.getStudents(name,grade,gender));
+    public ResponseEntity<List<Student>> getAllStudents(@RequestParam Map<String,String> request) {
+        return  ResponseEntity.ok(studentService.getStudents(request));
     }
 
     @GetMapping("/{id}")

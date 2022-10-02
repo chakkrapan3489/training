@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -32,8 +33,8 @@ public class StudentService {
     private StudentBusiness studentBusiness;
 
 
-    public List<Student> getStudents(String name, String grade, String gender) {
-        List<Student> students = studentBusiness.getStudentsByParam(name, grade, gender);
+    public List<Student> getStudents(Map<String,String> request) {
+        List<Student> students = studentBusiness.getStudentsByParam(request);
         return students;
     }
 
@@ -58,8 +59,10 @@ public class StudentService {
         if (student.isEmpty()) {
             throw new StudentNotFoundException(id);
         }
-        request.setId(id);
-        return studentRepository.save(StudentMapper.INSTANCE.toStudent(request));
+        Student studentGet  = student.get();
+        request.setId(student.get().getId());
+        studentGet = StudentMapper.INSTANCE.toStudent(request);
+        return studentRepository.save(studentGet);
     }
 
     public String deleteStudentById(int id) {
